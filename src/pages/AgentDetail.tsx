@@ -109,30 +109,31 @@ const AgentDetail = () => {
   // Executar agente
   const executeMutation = useMutation({
     mutationFn: async () => {
-      // Aqui vai a lógica de execução via API
       toast.info("Executando agente...");
       
-      // Log de execução
-      await supabase.from("agent_logs").insert({
-        agent_id: id,
-        action: "execution_started",
-        status: "running",
-        message: "Agente iniciado manualmente",
+      // Chamar API do servidor
+      const response = await fetch(`http://89.116.225.95:3100/api/execute/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       
-      // Atualizar contador
-      await supabase
-        .from("agents")
-        .update({
-          last_execution: new Date().toISOString(),
-          execution_count: (agent?.execution_count || 0) + 1,
-        })
-        .eq("id", id);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro na execução');
+      }
+      
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["agent", id] });
       queryClient.invalidateQueries({ queryKey: ["agent-logs", id] });
-      toast.success("Agente executado!");
+      toast.success(`${data.messages_sent} mensagens enviadas para ${data.leads_processed} leads!`);
+    },
+    onError: (error: any) => {
+      toast.error(`Erro: ${error.message}`);
     },
   });
 
