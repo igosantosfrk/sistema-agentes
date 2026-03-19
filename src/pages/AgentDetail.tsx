@@ -111,8 +111,8 @@ const AgentDetail = () => {
     mutationFn: async () => {
       toast.info("Executando agente...");
       
-      // Chamar API serverless da Vercel
-      const response = await fetch(`/api/execute?agentId=${id}`, {
+      // Chamar API via proxy Nginx
+      const response = await fetch(`http://89.116.225.95:8081/api/execute/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
