@@ -111,8 +111,8 @@ const AgentDetail = () => {
     mutationFn: async () => {
       toast.info("Executando agente...");
       
-      // Chamar API do servidor
-      const response = await fetch(`http://89.116.225.95:3100/api/execute/${id}`, {
+      // Chamar API serverless da Vercel
+      const response = await fetch(`/api/execute?agentId=${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +130,12 @@ const AgentDetail = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["agent", id] });
       queryClient.invalidateQueries({ queryKey: ["agent-logs", id] });
-      toast.success(`${data.messages_sent} mensagens enviadas para ${data.leads_processed} leads!`);
+      
+      if (data.messages_sent === 0) {
+        toast.info(data.message || 'Nenhum lead para prospectar');
+      } else {
+        toast.success(`${data.messages_sent} mensagens enviadas para ${data.leads_processed} leads!`);
+      }
     },
     onError: (error: any) => {
       toast.error(`Erro: ${error.message}`);
