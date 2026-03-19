@@ -10,13 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -104,31 +97,31 @@ const EditAgentDialog = ({ agent, open, onOpenChange }: EditAgentDialogProps) =>
 
           <div className="space-y-2">
             <Label htmlFor="edit-type">Tipo</Label>
-            <Select value={type} onValueChange={setType}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="chatbot">Chatbot</SelectItem>
-                <SelectItem value="automation">Automação</SelectItem>
-                <SelectItem value="analytics">Analytics</SelectItem>
-                <SelectItem value="support">Suporte</SelectItem>
-              </SelectContent>
-            </Select>
+            <select
+              id="edit-type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <option value="chatbot">Chatbot</option>
+              <option value="automation">Automação</option>
+              <option value="analytics">Analytics</option>
+              <option value="support">Suporte</option>
+            </select>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="edit-status">Status</Label>
-            <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Ativo</SelectItem>
-                <SelectItem value="inactive">Inativo</SelectItem>
-                <SelectItem value="paused">Pausado</SelectItem>
-              </SelectContent>
-            </Select>
+            <select
+              id="edit-status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <option value="active">Ativo</option>
+              <option value="inactive">Inativo</option>
+              <option value="paused">Pausado</option>
+            </select>
           </div>
 
           <div className="space-y-2">

@@ -10,13 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -89,17 +82,17 @@ const CreateAgentDialog = ({ open, onOpenChange }: CreateAgentDialogProps) => {
 
           <div className="space-y-2">
             <Label htmlFor="type">Tipo</Label>
-            <Select value={type} onValueChange={setType}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="chatbot">Chatbot</SelectItem>
-                <SelectItem value="automation">Automação</SelectItem>
-                <SelectItem value="analytics">Analytics</SelectItem>
-                <SelectItem value="support">Suporte</SelectItem>
-              </SelectContent>
-            </Select>
+            <select
+              id="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <option value="chatbot">Chatbot</option>
+              <option value="automation">Automação</option>
+              <option value="analytics">Analytics</option>
+              <option value="support">Suporte</option>
+            </select>
           </div>
 
           <div className="space-y-2">
