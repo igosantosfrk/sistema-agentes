@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Plus, Trash2, Edit } from "lucide-react";
+import { Plus, Trash2, Edit, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import CreateAgentDialog from "@/components/CreateAgentDialog";
 import EditAgentDialog from "@/components/EditAgentDialog";
 
@@ -21,6 +22,7 @@ const Index = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editAgent, setEditAgent] = useState<Agent | null>(null);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // Buscar agentes
   const { data: agents, isLoading } = useQuery({
@@ -99,7 +101,16 @@ const Index = () => {
                       <Button
                         variant="outline"
                         size="icon"
+                        onClick={() => navigate(`/agent/${agent.id}`)}
+                        title="Configurar"
+                      >
+                        <Settings className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
                         onClick={() => setEditAgent(agent)}
+                        title="Editar"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -107,6 +118,7 @@ const Index = () => {
                         variant="destructive"
                         size="icon"
                         onClick={() => deleteMutation.mutate(agent.id)}
+                        title="Deletar"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
